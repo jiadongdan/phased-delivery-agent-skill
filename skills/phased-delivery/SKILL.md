@@ -15,10 +15,12 @@ Before editing code:
 
 1. Inspect the relevant repository instructions, existing code, validation commands, and working-tree state.
 2. Preserve unrelated user changes.
-3. When using Git, determine the Git root explicitly. Choose the plan location by comparing its resolved path with that root rather than guessing from directory names.
-4. Record the goal, important constraints, acceptance criteria, and definition of done in a Markdown plan.
-5. Divide the work into phases that are small enough to implement, validate, review, and revert independently.
-6. For each phase, record its objective, expected scope, acceptance criteria, validation approach, dependencies, and status.
+3. Check whether the user or project already provides a Markdown plan that clearly belongs to the task. Reuse it instead of creating a duplicate. Leave ambiguous or unrelated plans untouched.
+4. When using Git, determine the Git root explicitly. Evaluate the selected plan's resolved path against that root rather than guessing from directory names.
+5. Apply the local-plan safeguards below before modifying an existing plan. If no suitable plan exists, choose a compliant location and create one.
+6. Create or update the selected plan to record the goal, important constraints, acceptance criteria, and definition of done.
+7. Divide the work into phases that are small enough to implement, validate, review, and revert independently.
+8. For each phase, record its objective, expected scope, acceptance criteria, validation approach, dependencies, and status.
 
 Keep the plan current as discoveries change the implementation. Record material decisions and deviations with brief reasons.
 
