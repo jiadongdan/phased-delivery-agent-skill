@@ -40,11 +40,40 @@ packaging or metadata required by this host, and do not alter its workflow
 instructions.
 ```
 
-Invoke the skill explicitly when needed. For example, in Codex:
+## Example prompts
+
+### Start substantial work
 
 ```text
-Use $phased-delivery to implement this change.
+Use phased-delivery to implement this feature. Divide it into coherent phases,
+validate and review each phase, and create local commits at verified phase
+boundaries. Do not push.
 ```
+
+### Resume partially completed work
+
+```text
+Use phased-delivery to continue this work. Reconcile the existing plans, code,
+commits, working-tree changes, and validation evidence before selecting the
+next phase.
+```
+
+### Use an existing plan
+
+```text
+Use phased-delivery with the existing plan at <path>. Keep the plan local and
+out of commits.
+```
+
+### Control expensive testing
+
+```text
+Use phased-delivery for this refactor. The complete test suite is expensive,
+so follow the cost-aware validation ladder and reserve the full relevant suite
+for final validation.
+```
+
+Replace `Use phased-delivery` with `$phased-delivery` in Codex or `/phased-delivery` in Claude Code when explicit invocation syntax is preferred.
 
 Repository-specific instructions should provide the actual test, lint, type-check, and build commands.
 
