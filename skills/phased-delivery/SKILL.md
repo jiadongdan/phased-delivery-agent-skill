@@ -1,6 +1,6 @@
 ---
 name: phased-delivery
-description: Use for substantial multi-step coding work, including partially completed work, that should be planned and delivered in independently validated, reviewed, documented, and committed phases. Do not use for small isolated changes.
+description: Use for substantial multi-step coding work, including partially completed work, that should be planned and delivered in independently validated, reviewed, documented, and committed phases with cost-aware testing. Do not use for small isolated changes.
 ---
 
 # Phased Delivery
@@ -42,7 +42,7 @@ Never treat plan files as temporary or debugging artifacts. Delete them only whe
 When applicable plans or implementation work predate the current session, reconcile them before choosing the next phase:
 
 1. Inspect the selected plans, current code, relevant commits and diffs, working-tree changes, and existing validation evidence.
-2. Treat plan status as navigation, not proof. Confirm completed phases against the implementation and rerun proportional validation when evidence is missing or stale.
+2. Treat plan status as navigation, not proof. Confirm completed phases against the implementation and follow the cost-aware validation ladder below when evidence is missing or stale.
 3. Preserve existing changes. Do not overwrite, revert, or discard work merely to make the code match the plan.
 4. Update the selected plans to reflect observed state: mark a phase complete only when its implementation and acceptance evidence support that status; mark partial work in progress and record what remains; incorporate in-scope code that the plans omitted.
 5. Resume from the first incomplete or insufficiently verified phase after rechecking its dependencies.
@@ -60,6 +60,19 @@ If an assumption proves wrong, a phase becomes too large, or the current divisio
 
 Do not expand scope silently.
 
+## Scale Validation Cost
+
+Use the least expensive check that can provide meaningful evidence, then broaden validation as risk and dependency scope increase:
+
+- During implementation, run the narrowest relevant executable check, such as a specific test, focused lint or type check, or direct behavioral probe.
+- At a phase boundary, validate the phase's acceptance criteria, affected modules, and direct integrations.
+- Broaden regression coverage when changes cross component boundaries or affect shared APIs, schemas, configuration, dependencies, persistence formats, concurrency, or similarly wide behavior.
+- At final completion, run the complete relevant validation suite.
+
+Do not rerun an expensive suite merely because another edit occurred. Reuse recorded evidence only when the tested code, relevant dependencies, configuration, fixtures, and inputs have not changed. Record each material validation command, scope, result, and tested commit or working-tree state in the local plans.
+
+Defer expensive GPU, network, end-to-end, or large-data checks to the relevant phase boundary or final validation unless the current change directly affects them. If a full relevant suite is unavailable or impractical, run the strongest feasible subset and report what was omitted and why; do not claim complete validation.
+
 ## Deliver Each Phase
 
 For every phase:
@@ -67,9 +80,9 @@ For every phase:
 1. Re-read the current phase and inspect the code it affects.
 2. Implement only the coherent scope of that phase.
 3. Add or update tests for new or changed behavior when the repository supports them and the behavior is proportionately testable. Otherwise record why and use another observable check.
-4. Map every acceptance criterion to observable evidence and run the strongest proportional checks available, such as targeted tests, linting, type checking, builds, smoke tests, or direct behavioral checks. Do not substitute inspection for an executable check the repository already provides.
+4. Map every acceptance criterion to observable evidence and follow the validation ladder above. Do not substitute inspection for an executable check the repository already provides.
 5. Repair failures caused by the change before continuing. Distinguish unrelated baseline failures and record them rather than hiding them.
-6. Review the diff, affected integrations, edge cases, error handling, compatibility, and test coverage. Use cumulative regression tests where practical instead of repeatedly reviewing the entire repository.
+6. Review the diff, affected integrations, edge cases, error handling, compatibility, and test coverage. Broaden regression testing only as required by the validation ladder.
 7. Update the applicable plans with completed work, validation evidence, decisions, deviations, and remaining work.
 8. When local commits are part of the requested workflow, end each completed phase at a distinct local commit boundary. Stage implementation and documentation paths deliberately, verify that all selected plan files and unrelated changes are absent from the staged diff, and use messages that describe intent. Do not combine unrelated phases in one commit; a phase may use multiple commits when repository conventions or safe implementation require them.
 
