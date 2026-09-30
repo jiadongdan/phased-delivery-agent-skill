@@ -14,11 +14,13 @@ Use it for features, refactors, migrations, or other multi-step changes that ben
 
 ```text
 phased-delivery/
-|-- plugin.json
+|-- plugin.json                         # Optional plugin-host packaging
 `-- skills/
     `-- phased-delivery/
-        `-- SKILL.md
+        `-- SKILL.md                    # Canonical, host-neutral skill
 ```
+
+`skills/phased-delivery/` is the canonical, host-neutral skill. `plugin.json` packages it for compatible plugin hosts such as Codex. Hosts with different packaging requirements should install or adapt the canonical skill directory without changing its instruction body.
 
 ## Install by host
 
