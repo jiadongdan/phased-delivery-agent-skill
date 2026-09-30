@@ -1,8 +1,10 @@
 # Phased Delivery
 
-`phased-delivery` is a small, general agent skill for substantial coding work. It guides an agent to maintain a living Markdown plan, implement one coherent phase at a time, validate and review each phase, update the plan, and create clean local commits when that workflow is authorized.
+`phased-delivery` is a small, general agent skill for substantial coding work. It guides an agent to maintain a living local Markdown plan, implement one coherent phase at a time, validate and review each phase, update the plan, and create clean local commit boundaries when that workflow is authorized.
 
 The skill is intentionally independent of programming language, framework, test runner, and agent orchestration strategy.
+
+The plan is local working state: it is retained for reference but never staged, committed, or pushed. When the plan is inside a Git worktree, the skill uses Git's repository-local exclusion mechanism instead of changing the project's tracked `.gitignore` solely for the plan.
 
 ## When to use it
 
@@ -32,7 +34,7 @@ Repository-specific instructions should provide the actual test, lint, type-chec
 
 ## Status
 
-Version `0.1.0` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
+Version `0.2.0` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
 
 ## License
 
