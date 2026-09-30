@@ -1,6 +1,6 @@
 ---
 name: phased-delivery
-description: Use for substantial multi-step coding work that should be planned and delivered in independently validated, reviewed, documented, and committed phases. Do not use for small isolated changes.
+description: Use for substantial multi-step coding work, including partially completed work, that should be planned and delivered in independently validated, reviewed, documented, and committed phases. Do not use for small isolated changes.
 ---
 
 # Phased Delivery
@@ -15,18 +15,18 @@ Before editing code:
 
 1. Inspect the relevant repository instructions, existing code, validation commands, and working-tree state.
 2. Preserve unrelated user changes.
-3. Check whether the user or project already provides a Markdown plan that clearly belongs to the task. Reuse it instead of creating a duplicate. Leave ambiguous or unrelated plans untouched.
-4. When using Git, determine the Git root explicitly. Evaluate the selected plan's resolved path against that root rather than guessing from directory names.
-5. Before writing to an existing or new plan, apply the local-plan rules below. For a path inside the Git worktree, stop if it is tracked; otherwise establish and verify repository-local exclusion. For a path outside the Git root, keep it inside the project workspace.
-6. If no suitable plan exists, create one at the selected location. Create or update the plan to record the goal, important constraints, acceptance criteria, and definition of done.
+3. Check whether the user or project already provides one or more Markdown plans that clearly belong to the task. Reuse applicable plans instead of creating duplicates, and establish how multiple plans relate. Leave unrelated plans untouched; if the applicable plan set is ambiguous, request direction before modifying it.
+4. When using Git, determine the Git root explicitly. Evaluate every selected plan's resolved path against that root rather than guessing from directory names.
+5. Before writing to an existing or new plan, apply the local-plan rules below to every selected path. For a path inside the Git worktree, stop if it is tracked; otherwise establish and verify repository-local exclusion. For a path outside the Git root, keep it inside the project workspace.
+6. If no suitable plan exists, create one at the selected location. Create or update the selected plans to record the goal, important constraints, acceptance criteria, and definition of done.
 7. Divide the work into phases that are small enough to implement, validate, review, and revert independently.
 8. For each phase, record its objective, expected scope, acceptance criteria, validation approach, dependencies, and status.
 
-Keep the plan current as discoveries change the implementation. Record material decisions and deviations with brief reasons.
+Keep the selected plans current as discoveries change the implementation. Record material decisions and deviations with brief reasons.
 
 ## Keep the Plan Local
 
-The plan is local working state. Retain it after completion, but never stage, commit, or push it.
+Plan files are local working state. Retain them after completion, but never stage, commit, or push them. Apply these rules to every selected plan file.
 
 - If the plan is outside the Git root but inside the project workspace, retain it there. Git cannot include it.
 - If the plan is inside the Git worktree, first run `git ls-files --error-unmatch -- "<repo-relative-plan-path>"`. If it succeeds, the plan is tracked: stop and report the conflict. Do not move, untrack, delete, or rewrite it without explicit user authorization; ignore rules do not protect tracked files.
@@ -35,7 +35,19 @@ The plan is local working state. Retain it after completion, but never stage, co
 - Verify the exclusion with `git check-ignore -q -- "<repo-relative-plan-path>"`. If verification fails, use the same outside-the-Git-root fallback or stop and report the conflict.
 - Before every commit, confirm that an in-worktree plan remains untracked and ignored, and is absent from `git diff --cached --name-only`.
 
-Never treat the plan as a temporary or debugging artifact. Delete it only when the user explicitly requests deletion.
+Never treat plan files as temporary or debugging artifacts. Delete them only when the user explicitly requests deletion.
+
+## Resume Existing Work
+
+When applicable plans or implementation work predate the current session, reconcile them before choosing the next phase:
+
+1. Inspect the selected plans, current code, relevant commits and diffs, working-tree changes, and existing validation evidence.
+2. Treat plan status as navigation, not proof. Confirm completed phases against the implementation and rerun proportional validation when evidence is missing or stale.
+3. Preserve existing changes. Do not overwrite, revert, or discard work merely to make the code match the plan.
+4. Update the selected plans to reflect observed state: mark a phase complete only when its implementation and acceptance evidence support that status; mark partial work in progress and record what remains; incorporate in-scope code that the plans omitted.
+5. Resume from the first incomplete or insufficiently verified phase after rechecking its dependencies.
+
+If the plans and code conflict in a way that materially changes intended behavior, stop and request direction rather than guessing.
 
 ## Adjust the Plan When Reality Changes
 
@@ -58,8 +70,8 @@ For every phase:
 4. Map every acceptance criterion to observable evidence and run the strongest proportional checks available, such as targeted tests, linting, type checking, builds, smoke tests, or direct behavioral checks. Do not substitute inspection for an executable check the repository already provides.
 5. Repair failures caused by the change before continuing. Distinguish unrelated baseline failures and record them rather than hiding them.
 6. Review the diff, affected integrations, edge cases, error handling, compatibility, and test coverage. Use cumulative regression tests where practical instead of repeatedly reviewing the entire repository.
-7. Update the plan with completed work, validation evidence, decisions, deviations, and remaining work.
-8. When local commits are part of the requested workflow, end each completed phase at a distinct local commit boundary. Stage implementation and documentation paths deliberately, verify that the plan and unrelated changes are absent from the staged diff, and use messages that describe intent. Do not combine unrelated phases in one commit; a phase may use multiple commits when repository conventions or safe implementation require them.
+7. Update the applicable plans with completed work, validation evidence, decisions, deviations, and remaining work.
+8. When local commits are part of the requested workflow, end each completed phase at a distinct local commit boundary. Stage implementation and documentation paths deliberately, verify that all selected plan files and unrelated changes are absent from the staged diff, and use messages that describe intent. Do not combine unrelated phases in one commit; a phase may use multiple commits when repository conventions or safe implementation require them.
 
 Do not weaken an existing test merely to make an implementation pass unless the required behavior has explicitly changed.
 
@@ -69,12 +81,12 @@ After all phases:
 
 1. Run the complete relevant validation suite.
 2. Check the original acceptance criteria and exercise the main user-visible behavior when possible.
-3. Review the complete branch diff and remove temporary or debugging artifacts, excluding the retained local plan.
+3. Review the complete branch diff and remove temporary or debugging artifacts, excluding the retained local plans.
 4. Update relevant documentation and record known limitations or follow-up work.
-5. Confirm that the plan remains local and untracked, then report the delivered behavior, validation performed, commits created, and any remaining risks.
+5. Confirm that the selected plans remain local and untracked, then report the delivered behavior, validation performed, commits created, and any remaining risks.
 
 Do not push, merge, deploy, publish, rewrite history, or discard user changes unless the user explicitly requests it.
 
 ## Keep the Workflow Proportional
 
-Skip the formal multi-phase process for genuinely small, isolated changes. Do not require test-driven development, subagents, worktrees, or workflow artifacts beyond the local plan unless the task, repository, or user requires them.
+Skip the formal multi-phase process for genuinely small, isolated changes. Do not require test-driven development, subagents, worktrees, or workflow artifacts beyond the local plans unless the task, repository, or user requires them.
