@@ -20,11 +20,25 @@ phased-delivery/
         `-- SKILL.md
 ```
 
-## Local use
+## Install by host
 
-Make the `skills/phased-delivery` directory available to an Agent Skills-compatible host, or copy that directory into the host's personal or repository-scoped skills directory.
+The canonical skill is `skills/phased-delivery/SKILL.md`. Preserve its instruction body when installing on another host; adapt only host-specific packaging or metadata.
 
-Invoke it explicitly when needed:
+- **Codex:** Install the repository as a portable plugin, or install the `skills/phased-delivery` directory as a personal or repository-scoped skill. Invoke it as `$phased-delivery`.
+- **Claude Code:** Copy or link `skills/phased-delivery` to `~/.claude/skills/phased-delivery` for personal use or `.claude/skills/phased-delivery` for project use. Invoke it as `/phased-delivery`.
+- **WorkBuddy:** Import the canonical skill directory. If the selected installation surface requires additional marketplace metadata, create a host-specific package that adds only that metadata and preserves the canonical instruction body.
+
+To delegate installation to an agent, use:
+
+```text
+Install the phased-delivery skill from
+https://github.com/jiadongdan/phased-delivery-agent-skill.
+Use skills/phased-delivery/SKILL.md as the canonical skill. Adapt only the
+packaging or metadata required by this host, and do not alter its workflow
+instructions.
+```
+
+Invoke the skill explicitly when needed. For example, in Codex:
 
 ```text
 Use $phased-delivery to implement this change.
