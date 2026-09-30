@@ -92,7 +92,7 @@ Do not weaken an existing test merely to make an implementation pass unless the 
 
 After all phases:
 
-1. Run the complete relevant validation suite.
+1. Follow the final-completion rung of the validation ladder: run the complete relevant suite or, when that is unavailable or impractical, run the strongest feasible subset and report omissions and reasons.
 2. Check the original acceptance criteria and exercise the main user-visible behavior when possible.
 3. Review the complete branch diff and remove temporary or debugging artifacts, excluding the retained local plans.
 4. Update relevant documentation and record known limitations or follow-up work.

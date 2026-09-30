@@ -34,7 +34,7 @@ Repository-specific instructions should provide the actual test, lint, type-chec
 
 ## Status
 
-Version `0.4.0` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
+Version `0.4.1` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
 
 ## License
 
