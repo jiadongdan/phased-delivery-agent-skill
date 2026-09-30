@@ -27,9 +27,11 @@ Keep the plan current as discoveries change the implementation. Record material 
 The plan is local working state. Retain it after completion, but never stage, commit, or push it.
 
 - If the plan is outside the Git root but inside the project workspace, retain it there. Git cannot include it.
-- If the plan is inside the Git worktree, exclude it through Git's local repository exclusion mechanism. For Git, locate that file with `git rev-parse --git-path info/exclude`; do not modify tracked `.gitignore` solely for the plan.
-- Before every commit, confirm that an in-worktree plan is untracked, ignored, and absent from the staged diff. Use checks such as `git ls-files`, `git check-ignore`, and `git diff --cached --name-only`.
-- If the plan is already tracked, do not assume an ignore rule will protect it. Move it outside the Git root or stop and report the conflict. Do not silently untrack it or rewrite history.
+- If the plan is inside the Git worktree, first run `git ls-files --error-unmatch -- "<repo-relative-plan-path>"`. If it succeeds, the plan is tracked: stop and report the conflict. Do not move, untrack, delete, or rewrite it without explicit user authorization; ignore rules do not protect tracked files.
+- For an untracked in-worktree plan, exclude it through Git's local repository exclusion mechanism. Locate the exclusion file with `git rev-parse --git-path info/exclude`; do not modify tracked `.gitignore` solely for the plan.
+- If the local exclusion file cannot be located or safely updated, move the untracked plan outside the Git root but keep it inside the project workspace. If that is not possible, stop and report the conflict.
+- Verify the exclusion with `git check-ignore -q -- "<repo-relative-plan-path>"`. If verification fails, use the same outside-the-Git-root fallback or stop and report the conflict.
+- Before every commit, confirm that an in-worktree plan remains untracked and ignored, and is absent from `git diff --cached --name-only`.
 
 Never treat the plan as a temporary or debugging artifact. Delete it only when the user explicitly requests deletion.
 

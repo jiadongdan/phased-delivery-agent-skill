@@ -4,7 +4,7 @@
 
 The skill is intentionally independent of programming language, framework, test runner, and agent orchestration strategy.
 
-The plan is local working state: it is retained for reference but never staged, committed, or pushed. When the plan is inside a Git worktree, the skill uses Git's repository-local exclusion mechanism instead of changing the project's tracked `.gitignore` solely for the plan.
+The plan is local working state: it is retained for reference but never staged, committed, or pushed. When the plan is inside a Git worktree, the skill checks that it is untracked and uses Git's repository-local exclusion mechanism instead of changing the project's tracked `.gitignore` solely for the plan. If local exclusion is unavailable, the plan is kept outside the Git root.
 
 ## When to use it
 
@@ -34,7 +34,7 @@ Repository-specific instructions should provide the actual test, lint, type-chec
 
 ## Status
 
-Version `0.2.0` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
+Version `0.2.1` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
 
 ## License
 
