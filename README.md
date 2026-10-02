@@ -1,10 +1,12 @@
 # Phased Delivery
 
-`phased-delivery` is a small, general agent skill for substantial coding work. It guides an agent to reuse or create living local Markdown plans, reconcile partially completed work before resuming, implement one coherent phase at a time, scale testing cost with change risk, update the plans, and create clean local commit boundaries when that workflow is authorized.
+`phased-delivery` is a small, general agent skill for substantial coding work. It guides an agent to maintain a local execution plan, reconcile partially completed work before resuming, implement one coherent phase at a time, scale testing cost with change risk, preserve durable project knowledge, and create clean local commit boundaries when that workflow is authorized.
 
 The skill is intentionally independent of programming language, framework, test runner, and agent orchestration strategy.
 
-The plan is local working state: it is retained for reference but never staged, committed, or pushed. Before writing to a plan inside a Git worktree, the skill checks that it is untracked and establishes repository-local exclusion instead of changing the project's tracked `.gitignore` solely for the plan. If local exclusion is unavailable, the plan is kept outside the Git root.
+Private execution state stays local; durable project knowledge belongs in Git when repository conventions support it. The skill keeps one execution plan for phase status, agent memory, and validation evidence. That plan is retained for reference but never staged, committed, or pushed. Intentionally tracked roadmaps, design documents, ADRs, migration guides, and user documentation remain normal project artifacts. The skill also avoids proliferating extra memory files by consolidating transient working information into the local execution plan.
+
+Before writing to a local execution plan inside a Git worktree, the skill checks that it is untracked and establishes repository-local exclusion instead of changing the project's tracked `.gitignore` solely for the plan. If a proposed plan is already tracked, it is preserved as durable documentation and a different local execution-plan path is selected. If local exclusion is unavailable, the local plan is kept outside the Git root.
 
 ## When to use it
 
@@ -61,8 +63,9 @@ next phase.
 ### Use an existing plan
 
 ```text
-Use phased-delivery with the existing plan at <path>. Keep the plan local and
-out of commits.
+Use phased-delivery with the existing execution plan at <path>. Keep private
+execution state local, but preserve and update durable project documentation
+when it is in scope.
 ```
 
 ### Control expensive testing
@@ -79,7 +82,7 @@ Repository-specific instructions should provide the actual test, lint, type-chec
 
 ## Status
 
-Version `0.4.1` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
+Version `0.5.0` is experimental. The workflow should be refined from observed behavior on real projects rather than expanded with speculative rules.
 
 ## License
 
